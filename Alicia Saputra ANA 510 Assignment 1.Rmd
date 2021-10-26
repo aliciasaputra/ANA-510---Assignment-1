@@ -1,0 +1,57 @@
+---
+title: "ANA 510 Assignment 1"
+author: alicia saputra
+date: 2021
+output: 
+  html_document:
+    theme: journal
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#Installing the packages
+```{r}
+install.packages('tidyverse')
+install.packages('knitr')
+install.packages('bslib')
+```
+#Importing data from CSV
+```{r}
+url <- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+fivethiryeight <- read_csv(url)
+glimpse(fivethiryeight)
+```
+#Calling my install packages
+```{r}
+library(tidyverse)
+library(knitr)
+library(bslib)
+```
+#create a new dataset named youth
+```{r}
+youth <- filter(fivethiryeight,age >=65)
+```
+#Summary of youth dataset
+```{r}
+summary (youth)
+```
+#Inline code
+```{r,echo=false}
+#This next chunk is my inline code
+```
+We have data about `r nrow(fivethiryeight)`individual killed by guns. 
+Only `r nrow(fivethiryeight) - nrow(youth)` are older than 65. 
+The distribution of the remainder is shown below:
+#This next code chunk will graph the distribution of the age variable from the youth dataset
+```{r youth-dist, echo = FALSE} 
+youth %>% 
+  ggplot(aes(age)) + 
+  geom_freqpoly(binwidth = 1) 
+```
+#This next code chunk will graph the distribution by race
+```{r race-dist, echo = FALSE} 
+youth %>% 
+  ggplot(aes(fct_infreq(race) %>% fct_rev())) + 
+  geom_bar() + coord_flip() + 
+  labs(x = "Victim race") 
+```
