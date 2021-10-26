@@ -1,0 +1,72 @@
+---
+title: "ANA 510 Assignment 1"
+author: "alicia saputra"
+date: "2021"
+output:
+  html_document:
+    theme: journal
+  pdf_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+options(repos = list(CRAN="http://cran.rstudio.com/"))
+```
+
+```{r}
+install.packages('tidyverse')
+install.packages('knitr')
+install.packages('bslib')
+```
+
+```{r include = FALSE}
+#Calling my install packages
+library (tidyverse)
+library (knitr)
+library (bslib)
+```
+
+```{r include=FALSE}
+#Importing data from CSV
+url <- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+fivethiryeight <- read_csv(url)
+glimpse(fivethiryeight)
+```
+
+```{r include=FALSE}
+#Create a new subset named Youth
+youth <- filter(fivethiryeight,age >=65)
+```
+
+```{r include=FALSE}
+#Summary of youth dataset
+summary (youth)
+```
+
+```{r,echo=FALSE}
+#This next chunk is my inline code
+```
+We have data about `r nrow(fivethiryeight)`individual killed by guns. 
+Only `r nrow(fivethiryeight) - nrow(youth)` are older than 65. 
+The distribution of the remainder is shown below:
+
+``` {r, echo = FALSE}
+#This next code chunk will make a plot in our output doc
+```
+
+```{r youth-dist, echo = FALSE}
+#Gun deaths by age
+youth %>% 
+  ggplot(aes(age)) + 
+  geom_freqpoly(binwidth = 1) 
+```
+
+```{r race-dist, echo = FALSE}
+#Gun deaths by race
+youth %>% 
+  ggplot(aes(fct_infreq(race) %>% fct_rev())) + 
+  geom_bar() + coord_flip() + 
+  labs(x = "Victim race") 
+```
