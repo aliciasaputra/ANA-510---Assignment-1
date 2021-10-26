@@ -5,7 +5,6 @@ date: "2021"
 output:
   html_document:
     theme: journal
-  pdf_document: default
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
